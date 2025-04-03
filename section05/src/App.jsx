@@ -1,11 +1,4 @@
-import Header from "./components/Header";
-import Main from "./components/Main";
-import Footer from "./components/Footer";
-import Button from "./components/Button";
-import { useState } from "react";
-import Bulb from "./components/bulb";
-import Counter from "./components/Counter";
-import Register from "./components/Register";
+import Hookexam from "./components/Hookexam";
 function App() {
   const Child = () => {
     return <div>child</div>;
@@ -18,7 +11,7 @@ function App() {
 
   return (
     <>
-      <Register />
+      <Hookexam />
     </>
   );
 }
