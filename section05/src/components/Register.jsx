@@ -1,45 +1,49 @@
 import { useState } from "react";
 const Register = () => {
-  const [name, setName] = useState("1");
-  const [birth, setBirth] = useState("");
-  const [country, setCountry] = useState("");
-  const [bio, setBio] = useState("");
-  const onChangeName = (e) => {
-    console.log(e);
-    setName(e.target.value);
+  const [input, setInput] = useState({
+    name: "",
+    birth: "",
+    country: "",
+    bio: "",
+  });
+  const onChange = (e) => {
+    console.log(input);
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
   };
-  const onChangeBirth = (e) => {
-    console.log(e);
-    setBirth(e.target.value);
-  };
-  const onChangeCountry = (e) => {
-    console.log(e);
-    setCountry(e.target.value);
-  };
-  const onChangeBio = (e) => {
-    console.log(e);
-    setBio(e.target.value);
-  };
+
   return (
     <div>
       <div>
-        <input value={name} placeholder={"name"} onChange={onChangeName} />
+        <input
+          name="name"
+          value={input.name}
+          placeholder={"name"}
+          onChange={onChange}
+        />
         {name}
       </div>
       <div>
-        <input value={birth} onChange={onChangeBirth} type="date"></input>
+        <input
+          name="birth"
+          value={input.birth}
+          onChange={onChange}
+          type="date"
+        ></input>
       </div>
       <div>
-        <select value={country} onChange={onChangeCountry}>
+        <select name="country" value={input.country} onChange={onChange}>
           <option></option>
           <option value="kr">한국</option>
           <option value="us">미국</option>
           <option value="uk">영국</option>
         </select>
-        {country}
+        {input.country}
       </div>
       <div>
-        <textarea value={bio} onChange={onChangeBio}></textarea>
+        <textarea name="bio" value={input.bio} onChange={onChange}></textarea>
       </div>
     </div>
   );
