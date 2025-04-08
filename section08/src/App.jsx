@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import "./App.css";
 import Editor from "./components/Editor";
@@ -20,11 +20,20 @@ const mockData = [
 ];
 function App() {
   const [todos, setTodos] = useState(mockData);
-
+  const idxRef = useRef(3);
+  const onCreate = (content) => {
+    const newData = {
+      id: idxRef.current++,
+      content: content,
+      date: new Date().getTime(),
+      isDone: false,
+    };
+    setTodos([newData, ...todos]);
+  };
   return (
     <div className="App">
       <Header></Header>
-      <Editor todos={todos} setTodos={setTodos}></Editor>
+      <Editor onCreate={onCreate}></Editor>
       <List todos={todos} setTodos={setTodos}></List>
     </div>
   );

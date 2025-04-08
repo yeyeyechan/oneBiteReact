@@ -1,20 +1,22 @@
 import { useState } from "react";
 import "./List.css";
 import TodoItem from "./TodoItem";
-const List = ({ todos, setTodos }) => {
+const List = ({ todos, dispatch }) => {
   const [search, setSearch] = useState("");
   const onSearch = (e) => {
     setSearch(e.target.value);
   };
   const onUpdate = (idx) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === idx ? { ...todo, isDone: !todo.isDone } : todo
-      )
-    );
+    dispatch({
+      type: "UPDATE",
+      data: idx,
+    });
   };
   const onDelete = (index) => {
-    setTodos(todos.filter((todo) => todo.id !== index));
+    dispatch({
+      type: "DELETE",
+      data: index,
+    });
   };
   const getFilteredData = () => {
     if (search === "") return todos;
