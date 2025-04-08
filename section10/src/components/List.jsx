@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import "./List.css";
 import TodoItem from "./TodoItem";
 const List = ({ todos, dispatch }) => {
@@ -6,43 +6,44 @@ const List = ({ todos, dispatch }) => {
   const onSearch = (e) => {
     setSearch(e.target.value);
   };
-  const onUpdate = (idx) => {
-    dispatch({
-      type: "UPDATE",
-      data: idx,
-    });
-  };
-  const onDelete = (index) => {
-    dispatch({
-      type: "DELETE",
-      data: index,
-    });
-  };
+
   const getFilteredData = () => {
     if (search === "") return todos;
     return todos.filter((todo) =>
       todo.content.toLowerCase().includes(search.toLowerCase())
     );
   };
+
+  const onUpdate = useCallback((idx) => {
+    dispatch({
+      type: "UPDATE",
+      data: idx,
+    });
+  }, []);
+  const onDelete = useCallback((index) => {
+    dispatch({
+      type: "DELETE",
+      data: index,
+    });
+  }, []);
+
   const filterdTodos = getFilteredData();
 
-  const getAnalyzedData = () => {
+  const { totalCount, notDonCount, donCount } = useMemo(() => {
+    const totalCount = todos.length;
+    const notDonCount = todos.filter((ele) => !ele.isDone).length;
+    const donCount = totalCount - notDonCount;
     console.log({
       totalCount,
       notDonCount,
       donCount,
     });
-    const totalCount = todos.length;
-    const notDonCount = todos.filter((ele) => !ele.isDone).length;
-    const donCount = totalCount - notDonCount;
-
     return {
       totalCount,
       notDonCount,
       donCount,
     };
-  };
-  const { totalCount, notDonCount, donCount } = getAnalyzedData();
+  }, [todos]);
   return (
     <div className="List">
       <h4>Todo List 🌱</h4>
