@@ -1,7 +1,9 @@
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useContext } from "react";
 import "./List.css";
 import TodoItem from "./TodoItem";
-const List = ({ todos, dispatch }) => {
+import { toDoContext } from "../App";
+const List = () => {
+  const todos = useContext(toDoContext);
   const [search, setSearch] = useState("");
   const onSearch = (e) => {
     setSearch(e.target.value);
@@ -13,19 +15,6 @@ const List = ({ todos, dispatch }) => {
       todo.content.toLowerCase().includes(search.toLowerCase())
     );
   };
-
-  const onUpdate = useCallback((idx) => {
-    dispatch({
-      type: "UPDATE",
-      data: idx,
-    });
-  }, []);
-  const onDelete = useCallback((index) => {
-    dispatch({
-      type: "DELETE",
-      data: index,
-    });
-  }, []);
 
   const filterdTodos = getFilteredData();
 
@@ -57,14 +46,7 @@ const List = ({ todos, dispatch }) => {
       ></input>
       <div className="todos_wrapper">
         {filterdTodos.map((todo, idx) => {
-          return (
-            <TodoItem
-              key={idx}
-              onUpdate={onUpdate}
-              {...todo}
-              onDelete={onDelete}
-            />
-          );
+          return <TodoItem key={idx} {...todo} />;
         })}
       </div>
     </div>

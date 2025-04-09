@@ -1,10 +1,17 @@
-import { useState, useRef, useReducer, useCallback } from "react";
+import {
+  useState,
+  useRef,
+  useReducer,
+  useCallback,
+  createContext,
+  useMemo,
+} from "react";
 
 import "./App.css";
 import Editor from "./components/Editor";
 import List from "./components/List";
 import Header from "./components/Header";
-import Exam from "./components/Exam";
+
 const mockData = [
   {
     id: 0,
@@ -31,6 +38,9 @@ const reducer = (state, action) => {
       );
   }
 };
+export const toDoContext = createContext();
+export const dispatchContext = createContext();
+
 function App() {
   const [todos, dispatch] = useReducer(reducer, mockData);
   const idxRef = useRef(3);
@@ -45,12 +55,34 @@ function App() {
       },
     });
   }, []);
-
+  const onUpdate = useCallback((idx) => {
+    dispatch({
+      type: "UPDATE",
+      data: idx,
+    });
+  }, []);
+  const onDelete = useCallback((index) => {
+    dispatch({
+      type: "DELETE",
+      data: index,
+    });
+  }, []);
+  const memoizedDispatch = useMemo(() => {
+    return {
+      onCreate,
+      onUpdate,
+      onDelete,
+    };
+  }, []);
   return (
     <div className="App">
       <Header></Header>
-      <Editor onCreate={onCreate}></Editor>
-      <List todos={todos} dispatch={dispatch}></List>
+      <toDoContext.Provider value={todos}>
+        <dispatchContext.Provider value={memoizedDispatch}>
+          <Editor></Editor>
+          <List></List>
+        </dispatchContext.Provider>
+      </toDoContext.Provider>
     </div>
   );
 }

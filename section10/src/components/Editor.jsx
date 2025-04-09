@@ -1,6 +1,8 @@
+import { dispatchContext, toDoContext } from "../App";
 import "./Editor.css";
-import { useRef } from "react";
-const Editor = ({ onCreate }) => {
+import { useContext, useRef } from "react";
+const Editor = () => {
+  const { onCreate } = useContext(dispatchContext);
   const inputValue = useRef("");
   const onSubmit = () => {
     if (inputValue.current.value === "") inputValue.current.focus();
