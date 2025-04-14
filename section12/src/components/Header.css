@@ -1,0 +1,21 @@
+.Header {
+  display: flex;
+  align-items: center;
+  padding: 20px 0px;
+}
+.Header > div {
+  display: flex;
+}
+.Header .title {
+  width: 50%;
+  justify-content: center;
+  font-size: 18px;
+}
+.left_child {
+  justify-content: flex-start;
+  width: 25%;
+}
+.right_child {
+  justify-content: flex-e d;
+  width: 25%;
+}

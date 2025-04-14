@@ -1,0 +1,17 @@
+button {
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 10px 20px;
+  white-space: nowrap;
+  border: none;
+}
+
+.button_positive {
+  background-color: green;
+  color: white;
+}
+.button_negative {
+  background-color: red;
+  color: white;
+}
